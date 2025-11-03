@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.1">
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
   <persistence-unit name="primaryPU" transaction-type="JTA">
     <!-- Use WildFly's default example datasource. Replace with your own if needed. -->
     <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
     <properties>
       <!-- Auto-create schema for demo purposes -->
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-      <property name="jakarta.persistence.sql-load-script-source" value="META-INF/load.sql"/>
       <!-- Show SQL (optional) -->
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.format_sql" value="true"/>
