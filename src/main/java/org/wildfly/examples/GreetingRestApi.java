@@ -12,12 +12,12 @@ import lombok.extern.java.Log;
 
 @Path("/")
 @Log
-public class MyRestApi {
+public class GreetingRestApi {
 
   @Inject
-  private MyEJB service;
+  private GreetingEJB service;
 
-  public void on(@Observes MyEJB.HelloEvent event) {
+  public void on(@Observes GreetingEJB.GreetingEvent event) {
     log.info("Observed: " + event);
   }
 
@@ -35,6 +35,15 @@ public class MyRestApi {
   @Produces(MediaType.TEXT_PLAIN)
   public Response async() {
     service.async();
+
+    return Response.ok("Done").build();
+  }
+
+  @GET
+  @Path("/tx")
+  @Produces(MediaType.TEXT_PLAIN)
+  public Response tx() {
+    service.callingTwoRepos();
 
     return Response.ok("Done").build();
   }

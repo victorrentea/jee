@@ -5,7 +5,7 @@ import lombok.extern.java.Log;
 
 import java.util.logging.Logger;
 
-//@Singleton
+//@Singleton // pollutes the log
 @Log
 public class Scheduler {
 

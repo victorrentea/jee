@@ -19,11 +19,11 @@ public class  GettingStartedServiceIT {
     @Deployment
     public static WebArchive createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "GettingStartedServiceIT.war")
-                .addClass(MyEJB.class);
+                .addClass(GreetingEJB.class);
     }
 
     @Inject
-    MyEJB service;
+    GreetingEJB service;
 
     @Test
     public void testService() {

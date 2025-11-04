@@ -1,23 +1,22 @@
 package org.wildfly.examples;
 
-
-import jakarta.ejb.Asynchronous;
 import jakarta.ejb.Singleton;
 import jakarta.enterprise.event.Observes;
-import jakarta.enterprise.event.TransactionPhase;
+import jakarta.inject.Inject;
 import lombok.extern.java.Log;
-import org.wildfly.examples.MyEJB.HelloEvent;
+import org.wildfly.examples.GreetingEJB.GreetingEvent;
 
-import java.util.logging.Logger;
+import static jakarta.enterprise.event.TransactionPhase.IN_PROGRESS;
 
-import static jakarta.enterprise.event.TransactionPhase.AFTER_SUCCESS;
-
-@Singleton
 @Log
+@Singleton
 public class EventListener {
 
-//  @Asynchronous
-  public void on(@Observes(during = AFTER_SUCCESS) HelloEvent event) {
-    log.info("Observed: " + event);
+  @Inject
+  private GreetingJpaRepo greetingRepo;
+
+  public void on(@Observes(during = IN_PROGRESS) GreetingEvent event) {
+    log.info("Observed event: " + event);
+    greetingRepo.jpaPersist(event.message());
   }
 }

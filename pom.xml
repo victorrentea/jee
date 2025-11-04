@@ -40,6 +40,11 @@
         <!--Use JUnit 5 here - the WildFly bom still brings 4.x -->
         <version.junit5>5.13.4</version.junit5>
 
+        <!-- JDBC driver versions -->
+        <version.postgresql>42.7.4</version.postgresql>
+        <!-- P6Spy version -->
+        <version.p6spy>3.9.1</version.p6spy>
+
         <!-- other plugin versions -->
         <version.compiler.plugin>3.14.0</version.compiler.plugin>
         <version.failsafe.plugin>3.5.3</version.failsafe.plugin>
@@ -136,6 +141,23 @@
 
     <dependencies>
 
+
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>3.9.1</version>
+            <!--<scope>runtime</scope>-->
+        </dependency>
+
+
+        <!-- PostgreSQL JDBC driver (copied to target/lib for WildFly module creation via CLI) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${version.postgresql}</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
@@ -154,6 +176,13 @@
         <dependency>
             <groupId>jakarta.ejb</groupId>
             <artifactId>jakarta.ejb-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JPA API provided by the application server -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -199,7 +228,7 @@
 
     <build>
         <!-- deploys the quickstart on root web context -->
-        <finalName>ROOT</finalName>
+        <finalName>/ROOT</finalName>
 
         <plugins>
             <!--Configuration of the maven-compiler-plugin -->

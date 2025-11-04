@@ -7,11 +7,10 @@ import lombok.extern.java.Log;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.joining;
+
 @Log
-/**
- * EJB interceptor that logs method parameters, return values, and execution time.
- */
-public class Interceptor {
+public class LoggerInterceptor {
 
     @AroundInvoke
     public Object logMethod(InvocationContext ctx) throws Exception {
@@ -36,7 +35,7 @@ public class Interceptor {
         if (params == null || params.length == 0) {
             return "";
         }
-        return Arrays.stream(params).map(Interceptor::safeToString).collect(Collectors.joining(", "));
+        return Arrays.stream(params).map(LoggerInterceptor::safeToString).collect(joining(", "));
     }
 
     private static String formatReturn(Object result) {
@@ -44,7 +43,6 @@ public class Interceptor {
     }
 
     private static String safeToString(Object o) {
-        if (o == null) return "null";
         try {
             return String.valueOf(o);
         } catch (Throwable t) {

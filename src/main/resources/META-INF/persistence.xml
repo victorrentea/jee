@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
   <persistence-unit name="primaryPU" transaction-type="JTA">
-    <!-- Use WildFly's default example datasource. Replace with your own if needed. -->
-    <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-    <properties>
+    <!-- JTA datasource configured via deployment descriptor (postgresql-ds.xml) -->
+    <jta-data-source>java:/jdbc/jeeDS</jta-data-source>
+      <properties>
       <!-- Auto-create schema for demo purposes -->
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
       <!-- Show SQL (optional) -->

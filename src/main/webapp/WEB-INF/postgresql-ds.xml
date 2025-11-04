@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+    <datasource jndi-name="java:/jdbc/jeeDS" pool-name="jeeDS" enabled="true" use-java-context="true">
+        <connection-url>jdbc:p6spy:postgresql://localhost:5432/jee</connection-url>
+        <driver>p6spy</driver>
+
+        <!--<connection-url>jdbc:postgresql://localhost:5432/jee</connection-url>
+        --><!--<driver>postgres</driver>-->
+
+        <!--
+        <connection-url>jdbc:postgresql://localhost:5432/jee</connection-url>
+        <driver-class>org.postgresql.Driver</driver-class>
+        <driver>postgresql-42.7.4.jar</driver>
+-->
+
+        <security>
+            <user-name>postgres</user-name>
+            <password>postgres</password>
+        </security>
+        <validation>
+            <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+            <background-validation>true</background-validation>
+            <background-validation-millis>60000</background-validation-millis>
+        </validation>
+    </datasource>
+    <!--<drivers>
+        <driver name="p6spy" module="com.p6spy">
+            <driver-class>com.p6spy.engine.spy.P6SpyDriver</driver-class>
+        </driver>
+        <driver name="postgres" module="org.postgresql" >
+            <driver-class>org.postgresql.Driver</driver-class>
+        </driver>
+    </drivers>-->
+</datasources>
