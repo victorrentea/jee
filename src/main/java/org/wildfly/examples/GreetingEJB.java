@@ -1,23 +1,34 @@
 package org.wildfly.examples;
 
-import jakarta.ejb.Asynchronous;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.*;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.inject.Any;
 import jakarta.inject.Inject;
 import jakarta.interceptor.Interceptors;
 import lombok.extern.java.Log;
 
-@Stateless
+import java.util.ArrayList;
+import java.util.List;
+
+//@Stateful // TERRIBLE
+//@MessageDriven // JMS
+
+
+@Singleton // one instance per .war/app
+//@Stateless // = pool of X(7) instances, = the best thing in 2005-2010
+// during a method call in one instance, that instance is not invoked again,
+      // WHY?!?!? ONLY NEEDED WHEN...
 @Interceptors(LoggerInterceptor.class)
 @Log
 public class GreetingEJB {
-
   @Inject
   GreetingJpaRepo greetingRepo;
-
   @Inject
-  GreetingJdbcRepo greetingRepo2;
+  GreetingJdbcRepo greetingJdbcRepo;
+  @Inject
+  GreetingJdbc2Repo greetingJdbc2Repo;
+
+  List<String> errorsInTheCurrentRequest = new ArrayList<>(); // works in @Stateless, not in @Singleton(race) MADNESS, 2005' style:
 
   @Inject
   @Any
@@ -39,12 +50,20 @@ public class GreetingEJB {
     log.info("Async");
   }
 
+  public void backCall() {
+    log.info("I can have cyclic dependencies between EJBs!!");
+  }
+
   public record GreetingEvent(String message){}
+
+  @EJB
+  GreetingFriendEJB friend;
 
   public void callingTwoRepos() {
     log.info("START");
-    greetingRepo2.sqlInsert("updated message");
-    greetingRepo.jpaPersist("new message");
+    greetingJdbcRepo.sqlInsert("updated message1");
+    friend.callingOneRepo();
+    greetingJdbc2Repo.sqlInsert("updated message2");
     if (true) throw new RuntimeException("BUG🐞");
     log.info("END");
   }
