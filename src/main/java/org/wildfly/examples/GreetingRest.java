@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.java.Log;
 
+import javax.naming.NamingException;
 import java.sql.SQLException;
 
 @Path("/")
@@ -30,6 +31,14 @@ public class GreetingRest {
     String response = service.hello(name);
 
     return Response.ok(response).build();
+  }
+  @GET
+  @Path("/tx/resource")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String resource() throws SQLException, NamingException {
+    service.callingTwoRepos();
+
+    return "ok";
   }
 
   @GET

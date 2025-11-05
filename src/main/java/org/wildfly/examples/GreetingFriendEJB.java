@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.interceptor.Interceptors;
 import lombok.extern.java.Log;
 
+import javax.naming.NamingException;
 import java.sql.SQLException;
 
 @Stateless
@@ -17,8 +18,11 @@ public class GreetingFriendEJB {
   GreetingJdbc2Repo greetingJdbc2Repo;
   @Inject
   GreetingEJB greetingCycle;
+  @Inject
+  private GreetingJdbcJndiManualLookupRepo greetingJdbcJndiManualLookupRepo;
 
-  public void callingOneRepo() throws SQLException {
+  public void callingOneRepo() throws SQLException, NamingException {
+    greetingJdbcJndiManualLookupRepo.sqlInsertJndi("JNDI");
     greetingCycle.backCall();
     greetingJdbc2Repo.sqlInsert("updated message2");
   }

@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.interceptor.Interceptors;
 import lombok.extern.java.Log;
 
+import javax.naming.NamingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 //@MessageDriven // JMS
 
 
-@Singleton // one instance per .war/app
+@Stateless // one instance per .war/app
 //@Stateless // = pool of X(7) instances, = the best thing in 2005-2010
 // during a method call in one instance, that instance is not invoked again,
       // WHY?!?!? ONLY NEEDED WHEN...
@@ -61,12 +62,12 @@ public class GreetingEJB {
 
 
 
-  public void callingTwoRepos() throws SQLException {
+  public void callingTwoRepos() throws SQLException, NamingException {
     log.info("START");
     greetingJdbcRepo.sqlInsert("updated message1");
     friend.callingOneRepo();
 //    greetingJdbc2Repo.sqlInsert("updated message2");
-//    if (true) throw new RuntimeException("BUG🐞");
+    if (true) throw new RuntimeException("RUNTIME causing rollback🐞");
     log.info("END");
   }
 }
