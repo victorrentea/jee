@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.interceptor.Interceptors;
 import lombok.extern.java.Log;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import java.util.List;
 @Interceptors(LoggerInterceptor.class)
 @Log
 public class GreetingEJB {
+  @Inject
+  GreetingFriendEJB friend;
   @Inject
   GreetingJpaRepo greetingRepo;
   @Inject
@@ -56,15 +59,14 @@ public class GreetingEJB {
 
   public record GreetingEvent(String message){}
 
-  @EJB
-  GreetingFriendEJB friend;
 
-  public void callingTwoRepos() {
+
+  public void callingTwoRepos() throws SQLException {
     log.info("START");
     greetingJdbcRepo.sqlInsert("updated message1");
     friend.callingOneRepo();
-    greetingJdbc2Repo.sqlInsert("updated message2");
-    if (true) throw new RuntimeException("BUG🐞");
+//    greetingJdbc2Repo.sqlInsert("updated message2");
+//    if (true) throw new RuntimeException("BUG🐞");
     log.info("END");
   }
 }

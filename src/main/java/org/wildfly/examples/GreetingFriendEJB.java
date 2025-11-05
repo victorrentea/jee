@@ -8,6 +8,8 @@ import jakarta.inject.Inject;
 import jakarta.interceptor.Interceptors;
 import lombok.extern.java.Log;
 
+import java.sql.SQLException;
+
 @Stateless
 @Log
 public class GreetingFriendEJB {
@@ -16,7 +18,7 @@ public class GreetingFriendEJB {
   @Inject
   GreetingEJB greetingCycle;
 
-  public void callingOneRepo() {
+  public void callingOneRepo() throws SQLException {
     greetingCycle.backCall();
     greetingJdbc2Repo.sqlInsert("updated message2");
   }

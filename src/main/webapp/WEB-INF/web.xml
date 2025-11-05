@@ -8,13 +8,13 @@
 
     <servlet>
         <servlet-name>TraditionalServlet</servlet-name>
-        <servlet-class>org.wildfly.examples.TraditionalServlet</servlet-class>
+        <servlet-class>org.wildfly.examples.Servlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>TraditionalServlet</servlet-name>
-        <url-pattern>/traditional</url-pattern>
+        <url-pattern>/servlet</url-pattern>
     </servlet-mapping>
 
     <!-- Ensure UTF-8 request handling (optional, container defaults generally fine) -->

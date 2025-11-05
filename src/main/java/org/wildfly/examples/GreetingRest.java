@@ -10,9 +10,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.java.Log;
 
+import java.sql.SQLException;
+
 @Path("/")
 @Log
-public class GreetingRestApi {
+public class GreetingRest {
 
   @Inject
   private GreetingEJB service;
@@ -22,7 +24,7 @@ public class GreetingRestApi {
   }
 
   @GET
-  @Path("/{name}")
+  @Path("/to/{name}")
   @Produces(MediaType.TEXT_PLAIN)
   public Response sayHello(final @PathParam("name") String name) {
     String response = service.hello(name);
@@ -39,12 +41,4 @@ public class GreetingRestApi {
     return Response.ok("Done").build();
   }
 
-  @GET
-  @Path("/tx")
-  @Produces(MediaType.TEXT_PLAIN)
-  public Response tx() {
-    service.callingTwoRepos();
-
-    return Response.ok("Done").build();
-  }
 }

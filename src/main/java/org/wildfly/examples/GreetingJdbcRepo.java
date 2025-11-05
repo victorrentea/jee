@@ -17,14 +17,20 @@ public class GreetingJdbcRepo {
   DataSource dataSource;
 
   public int sqlInsert(String message) {
+    try {
+    return sqlInsertThrowingSql(message);
+    } catch (SQLException e) {
+      throw new RuntimeException("Failed to insert greeting", e);
+    }
+  }
+
+  public int sqlInsertThrowingSql(String message) throws SQLException {
     String sql = "insert into greeting(message,createdat) values (?,?)";
     try (Connection c = dataSource.getConnection();
          PreparedStatement ps = c.prepareStatement(sql)) {
       ps.setString(1, message);
       ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
       return ps.executeUpdate();
-    } catch (SQLException e) {
-      throw new RuntimeException("Failed to insert greeting", e);
     }
   }
 }

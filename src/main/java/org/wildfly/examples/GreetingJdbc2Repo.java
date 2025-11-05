@@ -18,16 +18,17 @@ public class GreetingJdbc2Repo {
   @Resource(lookup = "java:/jdbc/jeeDS")
   DataSource dataSource;
 
-  public int sqlInsert(String message) {
+  public int sqlInsert(String message) throws SQLException {
     System.out.println("Using: " + dataSource.getClass());
+    //language=sql
     String sql = "insert into greeting(message,createdat) values (?,?)";
     try (Connection c = dataSource.getConnection();
          PreparedStatement ps = c.prepareStatement(sql)) {
       ps.setString(1, message);
       ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
       return ps.executeUpdate();
-    } catch (SQLException e) {
-      throw new RuntimeException("Failed to insert greeting", e);
+//    } catch (SQLException e) {
+//      throw new RuntimeException("Failed to insert greeting", e);
     }
   }
 }

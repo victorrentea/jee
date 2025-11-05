@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 /**
  * A traditional Servlet registered via web.xml which injects an EJB using CDI @Inject.
  */
-public class TraditionalServlet extends HttpServlet {
+public class Servlet extends HttpServlet {
 
   @Inject
   GreetingEJB greetingEJB;
@@ -26,7 +26,7 @@ public class TraditionalServlet extends HttpServlet {
         who = "web.xml";
       }
       String msg = greetingEJB.hello(who);
-      out.println(msg);
+      out.println("From servlet: " + msg);
     }
   }
 }
